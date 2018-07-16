@@ -5,22 +5,21 @@ from collections import defaultdict
 
 def search_for_duplicate_files(path):
     files_name_size_paths = defaultdict(list)
-    for root, dirs, name_files in os.walk(path):
-        for name_file in name_files:
+    for root, dirs, files_name in os.walk(path):
+        for name_file in files_name:
             size_file = os.path.getsize(os.path.join(root, name_file))
             files_name_size_paths[(name_file, size_file)].append(root)
     duplicate_files = [
-        [os.path.join(path, duplicates[0]) for path in files_name_size_paths [duplicates]]
-        for duplicates in files_name_size_paths  if len(files_name_size_paths [duplicates]) > 1
+        [os.path.join(path, duplicates[0]) for path in files_name_size_paths[duplicates]]
+        for duplicates in files_name_size_paths  if len(files_name_size_paths[duplicates]) > 1
     ]
     return duplicate_files
 
 
 def pprint_duplicate_files(duplicates_files):
     for duplicates in duplicates_files:
-        for name_file in duplicates:
-            print(name_file)
-        print("\n")
+        print("\n".join(duplicates), "\n")
+
 
 
 def get_parser_args():
